@@ -1,5 +1,8 @@
 local render_area = dofile("objs/entity.lua")
 
+render_area.name = "Render Area"
+render_area.pos_x = love.graphics.getWidth()/2
+render_area.pos_y = love.graphics.getHeight()/2
 render_area.size_x = 256
 render_area.size_y = 256
 

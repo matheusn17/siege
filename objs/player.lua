@@ -1,5 +1,6 @@
 local player = dofile("objs/entity.lua")
 
+player.name = "player"
 player.drawable = true
 player.facing = "left" -- or right
 player.size_x = 16
@@ -11,8 +12,13 @@ player.sprite = love.graphics.newImage("assets/player.png")
 player.sprite:setFilter("nearest", "nearest")
 
 player.body = love.physics.newBody(args.world, player.pos_x, player.pos_y, "dynamic")
-player.shape = love.physics.newCircleShape(player.size_x)
+player.shape = love.physics.newRectangleShape(player.size_x, player.size_y)
 player.fixture = love.physics.newFixture(player.body, player.shape)
+
+player.fixture:setGroupIndex(1)
+
+player.body:setInertia(0)
+player.body:setLinearDamping(0)
 
 player.update = function (self, ra)
   self.pos_x, self.pos_y = self.body:getPosition()
