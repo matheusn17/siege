@@ -8,6 +8,7 @@ tower.pos_x = args.render_area.size_x/2
 tower.pos_y = args.render_area.size_y/2
 tower.health = 10
 tower.status = "alive"
+tower.damage_refresh_timer = 0
 
 tower.sprite = love.graphics.newImage("assets/tower.png")
 tower.sprite:setFilter("nearest", "nearest")
@@ -33,16 +34,19 @@ tower.checkStatus = function (self)
 end
 
 tower.handleCollisions = function (self)
-  local contacts = self.body:getContacts()
   
-  for j, c in pairs(contacts) do
-    local fixture_a, fixture_b = c:getFixtures()
+  if ( love.timer.getTime() - self.damage_refresh_timer )  > 0.5 then
+    local contacts = self.body:getContacts()
     
-    if( fixture_a:getGroupIndex() == 1 or fixture_b:getGroupIndex() == 1) then
-      -- TODO
-      self:takeDamage(1)
+    for j, c in pairs(contacts) do
+      local fixture_a, fixture_b = c:getFixtures()
+    
+      if( fixture_a:getGroupIndex() == 1 or fixture_b:getGroupIndex() == 1) then
+        -- TODO
+        self:takeDamage(1)
+      end   
     end
-      
+    self.damage_refresh_timer = love.timer.getTime()
   end
 end
 

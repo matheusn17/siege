@@ -52,6 +52,9 @@ function love.draw()
     if(objs.tower.status == 'dead') then
       love.graphics.setColor(0, 0, 0)
       love.graphics.printf("GAME OVER", 0, 0, objs.render_area.size_x, "center")
+    else
+      love.graphics.setColor(0, 0, 0)
+      love.graphics.printf("TOWER HEALTH: " .. objs.tower.health, 0, 0, objs.render_area.size_x, "center")
     end
       
   love.graphics.setCanvas()
