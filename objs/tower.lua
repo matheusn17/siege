@@ -41,7 +41,7 @@ tower.handleCollisions = function (self)
     for j, c in pairs(contacts) do
       local fixture_a, fixture_b = c:getFixtures()
     
-      if( fixture_a:getGroupIndex() == 1 or fixture_b:getGroupIndex() == 1) then
+      if( fixture_a:getGroupIndex() == 3 or fixture_b:getGroupIndex() == 3) then
         -- TODO
         self:takeDamage(1)
       end   

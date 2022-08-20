@@ -1,15 +1,27 @@
 function love.load()
 
+  math.randomseed(os.time())
+
   objs = { }
   objs.phy_world = dofile("objs/phy_world.lua")
+  objs.spawner = dofile("objs/spawner.lua")
   objs.render_area = dofile("objs/render_area.lua")
   
   args = { world = objs.phy_world, render_area = objs.render_area }
     objs.player = dofile("objs/player.lua")
     objs.tower = dofile("objs/tower.lua")
-  --objs.enemy_model = require("enemy")
-  --objs.enemies = { }
-
+  
+  args = { world = objs.phy_world, render_area = objs.render_area, enemy_target = objs.tower } 
+    objs.enemies = { }
+    for i = 1, 5 do
+      objs.enemies[i] = dofile("objs/enemy.lua")
+    end
+  
+  -- spawn enemies
+  for _, enemie in pairs(objs.enemies) do
+    objs.spawner:replace(math.random(0, objs.render_area.size_x), math.random(objs.render_area.size_y))
+    objs.spawner:spawnEntity(enemie)
+  end
   -- Sets
   --love.window.setMode(100, 100, { vsync = 0 } )
   love.graphics.setBackgroundColor(0,0,0,1)
@@ -29,6 +41,10 @@ function love.update( dt )
     objs.player:update(objs.render_area)
     objs.tower:update()
     
+    for key, obj in pairs(objs.enemies) do
+      obj:update(objs.render_area)
+    end 
+    
     timer = 0
   end
     
@@ -40,6 +56,17 @@ function love.draw()
   love.graphics.clear(1,1,1,1)
   
     for key, obj in pairs(objs) do
+      if obj.drawable then
+        love.graphics.draw(obj.sprite, obj.pos_x, obj.pos_y, 0, 1, 1, obj.size_x/2, obj.size_y/2)
+        
+        -- physics debbug
+        love.graphics.setColor(0.9, 0.1, 0.1)
+        love.graphics.rectangle("line", obj.pos_x - (obj.size_x/2), obj.pos_y - (obj.size_y/2), obj.size_x, obj.size_y)
+      end
+    end
+    
+    -- enemies array rendered separately
+    for key, obj in pairs(objs.enemies) do
       if obj.drawable then
         love.graphics.draw(obj.sprite, obj.pos_x, obj.pos_y, 0, 1, 1, obj.size_x/2, obj.size_y/2)
         
@@ -81,19 +108,19 @@ function love.keypressed( key, sc, isRepeat)
   local tpb_vx, tpb_vy = tpb:getLinearVelocity()
   
   if key == 'w' then
-    tpb:setLinearVelocity(tpb_vx, -50)
+    tpb:applyForce(0, -500)
   end
   
   if key == 's' then
-    tpb:setLinearVelocity(tpb_vx, 50)
+    tpb:applyForce(0, 500)
   end
   
   if key == 'a' then
-    tpb:setLinearVelocity(-50, tpb_vy)
+    tpb:applyForce(-500, 0)
   end
   
   if key == 'd' then
-    tpb:setLinearVelocity(50, tpb_vy)
+    tpb:applyForce(500, 0)
   end
 end
 
