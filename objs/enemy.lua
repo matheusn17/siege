@@ -10,6 +10,7 @@ enemy.speed_y = 0
 enemy.target = args.enemy_target
 enemy.lifespan = 0
 enemy.damage_refresh_timer = love.timer.getTime()
+enemy.die_sndfx = love.audio.newSource( "assets/enemy_death.ogg", "static" )
 
 enemy.sprite = love.graphics.newImage("assets/enemy.png")
 enemy.sprite:setFilter("nearest", "nearest")
@@ -91,6 +92,7 @@ end
 
 enemy.die = function (self)
   -- do things
+  enemy.die_sndfx:play()
   self:despawn()
 end
 

@@ -30,6 +30,7 @@ function love.load()
   
   args = nil
   collectgarbage()
+  function distanceFrom(x1,y1,x2,y2) return math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2) end
 end
 
 function love.update( dt )
@@ -38,7 +39,7 @@ function love.update( dt )
 
   if timer >= 0.03 then
     objs.phy_world:update(timer) 
-    objs.player:update(objs.render_area)
+    objs.player:update(objs.render_area, objs.enemies)
     objs.tower:update()
     
     for key, obj in pairs(objs.enemies) do
@@ -57,7 +58,10 @@ function love.draw()
   
     for key, obj in pairs(objs) do
       if obj.drawable then
-        love.graphics.draw(obj.sprite, obj.pos_x, obj.pos_y, 0, 1, 1, obj.size_x/2, obj.size_y/2)
+       local _ = 1
+        if obj.facing_left then _ = -1 end
+      
+        love.graphics.draw(obj.sprite, obj.pos_x, obj.pos_y, 0, _, 1, obj.size_x/2, obj.size_y/2)
         
         -- physics debbug
         love.graphics.setColor(0.9, 0.1, 0.1)
@@ -116,10 +120,12 @@ function love.keypressed( key, sc, isRepeat)
   end
   
   if key == 'a' then
+    objs.player.facing_left = true
     tpb:applyForce(-500, 0)
   end
   
   if key == 'd' then
+    objs.player.facing_left = false
     tpb:applyForce(500, 0)
   end
 end
