@@ -107,49 +107,62 @@ function love.resize(x, y)
 end
 
 function love.keypressed( key, sc, isRepeat)
+
   -- Just to make the code smaller
-  local tpb = objs.player.body
-  local tpb_vx, tpb_vy = tpb:getLinearVelocity()
+  local ps = objs.player.speed
   
   if key == 'w' then
-    tpb:applyForce(0, -500)
+    ps.y = -75
   end
   
   if key == 's' then
-    tpb:applyForce(0, 500)
+    ps.y = 75
   end
   
   if key == 'a' then
     objs.player.facing_left = true
-    tpb:applyForce(-500, 0)
+    ps.x = -75
   end
   
   if key == 'd' then
     objs.player.facing_left = false
-    tpb:applyForce(500, 0)
+    ps.x = 75
   end
 end
 
 function love.keyreleased( key, sc, isRepeat)
 
   -- Just to make the code smaller
-  local tpb = objs.player.body
-  local tpb_vx, tpb_vy = tpb:getLinearVelocity()
+  local ps = objs.player.speed
   
   if key == 'w' then
-    tpb:setLinearVelocity(tpb_vx, 0)
+    ps.y = 0
+    if love.keyboard.isDown('s') then
+      ps.y = 75
+    end
   end
   
   if key == 's' then
-    tpb:setLinearVelocity(tpb_vx, 0)
+    ps.y = 0
+    if love.keyboard.isDown('w') then
+      ps.y = -75
+    end
   end
   
   if key == 'a' then
-    tpb:setLinearVelocity(0, tpb_vy)
+    ps.x = 0
+    if love.keyboard.isDown('d') then
+      objs.player.facing_left = false
+      ps.x = 75
+    end
   end
   
   if key == 'd' then
-    tpb:setLinearVelocity(0, tpb_vy)
+    ps.x = 0
+    if love.keyboard.isDown('a') then
+      objs.player.facing_left = true
+      ps.x = -75
+    end
   end
   
   if key == 'space' then

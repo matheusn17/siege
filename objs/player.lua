@@ -3,10 +3,9 @@ local player = dofile("objs/entity.lua")
 player.name = "player"
 player.drawable = true
 player.facing_left = true -- or right
-player.size_x = 16
-player.size_y = 13
-player.speed_x = 0
-player.speed_y = 0
+player.size_x = 16 -- TODO rewrite to = { x = *, y = * }
+player.size_y = 13 -- TODO rewrite to = { x = *, y = * }
+player.speed = { x = 0, y = 0 }
 player.open_mouth = false
 --player.open_mouth_sndfx = love.audio.newSource( "assets/open_mouth.ogg", "static" )
 player.open_mouth_sprite = love.graphics.newImage("assets/player_attacking.png")
@@ -27,6 +26,8 @@ player.body:setInertia(0)
 player.body:setLinearDamping(0)
 
 player.update = function (self, ra, enemies)
+
+  -- Do the mouth "animation"
   local far_from_enemies = true
 
   self.pos_x, self.pos_y = self.body:getPosition()
@@ -48,7 +49,10 @@ player.update = function (self, ra, enemies)
   if far_from_enemies then
     self.open_mouth = false
     self.sprite = self.idle_sprite
-  end    
+  end
+  
+  -- Update speed
+  self.body:setLinearVelocity(player.speed.x, player.speed.y)
     
 end
 
