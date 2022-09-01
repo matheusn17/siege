@@ -13,32 +13,36 @@ function love.load()
   
   args = { world = objs.phy_world, render_area = objs.render_area, enemy_target = objs.tower } 
     objs.enemies = { }
-    for i = 1, 5 do
+    for i = 1, 10 do
       objs.enemies[i] = dofile("objs/enemy.lua")
     end
   
   -- spawn enemies
   for _, enemie in pairs(objs.enemies) do
-    objs.spawner:replace(math.random(0, objs.render_area.size_x), math.random(objs.render_area.size_y))
+    objs.spawner:replace( nil, nil, objs.render_area )
     objs.spawner:spawnEntity(enemie)
   end
+  
   -- Sets
   --love.window.setMode(100, 100, { vsync = 0 } )
   love.graphics.setBackgroundColor(0,0,0,1)
   
-  timer = 0
+  timers = { }
+  timers.fps_timer = 0
+  timers.spawner_refresh_timer = 0
   
   args = nil
   collectgarbage()
-  function distanceFrom(x1,y1,x2,y2) return math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2) end
+  --function distanceFrom(x1,y1,x2,y2) return math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2) end
 end
 
 function love.update( dt )
   
-  timer = timer + dt
+  timers.fps_timer = timers.fps_timer + dt
+  timers.spawner_refresh_timer = timers.spawner_refresh_timer + dt
 
-  if timer >= 0.03 then
-    objs.phy_world:update(timer) 
+  if timers.fps_timer >= 0.03 then
+    objs.phy_world:update(timers.fps_timer) 
     objs.player:update(objs.render_area, objs.enemies)
     objs.tower:update()
     
@@ -46,7 +50,18 @@ function love.update( dt )
       obj:update(objs.render_area)
     end 
     
-    timer = 0
+    timers.fps_timer = 0
+  end
+  
+  if timers.spawner_refresh_timer >= 1 then
+    for _, enemie in pairs(objs.enemies) do
+      if not enemie.isAlive then
+        objs.spawner:replace(nil, nil, objs.render_area)
+        objs.spawner:respawnEntity(enemie)
+      end
+    end
+    
+    timers.spawner_refresh_timer = 0
   end
     
 end

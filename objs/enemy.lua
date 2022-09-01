@@ -7,6 +7,7 @@ enemy.size_x = 16
 enemy.size_y = 13
 enemy.speed_x = 0
 enemy.speed_y = 0
+enemy.isAlive = false
 enemy.target = args.enemy_target
 enemy.lifespan = 0
 enemy.damage_refresh_timer = love.timer.getTime()
@@ -73,6 +74,7 @@ enemy.spawn = function (self, x, y)
   self.body:setX(x)
   self.body:setY(y)
   self.body:setActive(true)
+  self.isAlive = true
   enemy.drawable = true
 end
 
@@ -82,6 +84,7 @@ enemy.despawn = function (self)
   self.body:setX(-2048)
   self.body:setY(-2048)
   self.body:setActive(false)
+  self.isAlive = false
   enemy.drawable = false
 end
 
