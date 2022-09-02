@@ -57,6 +57,7 @@ function love.update( dt )
   if timers.spawner_refresh_timer >= 1 then
     for _, enemie in pairs(objs.enemies) do
       if not enemie.isAlive then
+        if objs.tower.status == 'dead' then break end
         score = score + 1
         objs.spawner:replace(nil, nil, objs.render_area)
         objs.spawner:respawnEntity(enemie)
@@ -100,6 +101,7 @@ function love.draw()
     if(objs.tower.status == 'dead') then
       love.graphics.setColor(0, 0, 0)
       love.graphics.printf("GAME OVER", 0, 0, objs.render_area.size_x, "center")
+      love.graphics.printf("PRESS 'R' TO RESTART", 0, 32, objs.render_area.size_x, "center")
     else
       love.graphics.setColor(0, 0, 0)
       love.graphics.printf("TOWER HEALTH: " .. objs.tower.health, 0, 0, objs.render_area.size_x, "center")
@@ -188,4 +190,19 @@ function love.keyreleased( key, sc, isRepeat)
     objs.tower:takeDamage(5)
   end
   
+  -- soft reset
+  if key == 'r' and not love.keyboard.isDown('lctrl') then
+  
+    objs = nil
+    timers = nil
+    score = nil
+    collectgarbage()
+    love.load()
+  
+  end
+  
+  -- hard reset
+  if key == 'r' and love.keyboard.isDown('lctrl') then
+    love.event.quit( "restart" )
+  end
 end
