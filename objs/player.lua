@@ -9,7 +9,6 @@ player.pos_x = (args.render_area.size_x/2)
 player.pos_y = (args.render_area.size_y/3)
 player.speed = { x = 0, y = 0 }
 player.open_mouth = false
---player.open_mouth_sndfx = love.audio.newSource( "assets/open_mouth.ogg", "static" )
 player.open_mouth_sprite = love.graphics.newImage("assets/player_attacking.png")
 player.idle_sprite = love.graphics.newImage("assets/player.png")
 

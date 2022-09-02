@@ -30,6 +30,7 @@ function love.load()
   timers = { }
   timers.fps_timer = 0
   timers.spawner_refresh_timer = 0
+  score = 0
   
   args = nil
   collectgarbage()
@@ -56,6 +57,7 @@ function love.update( dt )
   if timers.spawner_refresh_timer >= 1 then
     for _, enemie in pairs(objs.enemies) do
       if not enemie.isAlive then
+        --score = score + 1
         objs.spawner:replace(nil, nil, objs.render_area)
         objs.spawner:respawnEntity(enemie)
       end
@@ -102,6 +104,8 @@ function love.draw()
       love.graphics.setColor(0, 0, 0)
       love.graphics.printf("TOWER HEALTH: " .. objs.tower.health, 0, 0, objs.render_area.size_x, "center")
     end
+    
+    love.graphics.printf(score, 0, 16, objs.render_area.size_x, "center")
       
   love.graphics.setCanvas()
   love.graphics.setColor(1, 1, 1)
