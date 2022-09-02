@@ -57,7 +57,7 @@ function love.update( dt )
   if timers.spawner_refresh_timer >= 1 then
     for _, enemie in pairs(objs.enemies) do
       if not enemie.isAlive then
-        --score = score + 1
+        score = score + 1
         objs.spawner:replace(nil, nil, objs.render_area)
         objs.spawner:respawnEntity(enemie)
       end

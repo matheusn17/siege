@@ -7,6 +7,7 @@ enemy.size_x = 16
 enemy.size_y = 13
 enemy.speed_x = 0
 enemy.speed_y = 0
+enemy.speed_factor = math.random(0.5, 2)
 enemy.isAlive = false
 enemy.target = args.enemy_target
 enemy.lifespan = 0
@@ -28,7 +29,7 @@ enemy.body:setLinearDamping(0)
 enemy.update = function (self, render_area)
   self.body:setAngle(math.atan2(self.body:getX() - self.target.body:getX(), self.body:getY() - self.target.body:getY()))
     
-  self.body:setLinearVelocity(math.sin(self.body:getAngle()) * -15, math.cos(self.body:getAngle()) * -15)
+  self.body:setLinearVelocity(math.sin(self.body:getAngle()) * -15 * self.speed_factor, math.cos(self.body:getAngle()) * -15 * self.speed_factor)
   self.pos_x, self.pos_y = self.body:getPosition()
   
   self:handleCollisions()
@@ -75,6 +76,7 @@ enemy.spawn = function (self, x, y)
   self.body:setY(y)
   self.body:setActive(true)
   self.isAlive = true
+  self.speed_factor = math.random(0.5, 2)
   enemy.drawable = true
 end
 
