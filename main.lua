@@ -82,8 +82,8 @@ function love.draw()
         love.graphics.draw(obj.sprite, obj.pos_x, obj.pos_y, 0, _, 1, obj.size_x/2, obj.size_y/2)
         
         -- physics debbug
-        love.graphics.setColor(0.9, 0.1, 0.1)
-        love.graphics.rectangle("line", obj.pos_x - (obj.size_x/2), obj.pos_y - (obj.size_y/2), obj.size_x, obj.size_y)
+        --love.graphics.setColor(0.9, 0.1, 0.1)
+        --love.graphics.rectangle("line", obj.pos_x - (obj.size_x/2), obj.pos_y - (obj.size_y/2), obj.size_x, obj.size_y)
       end
     end
     
@@ -93,8 +93,8 @@ function love.draw()
         love.graphics.draw(obj.sprite, obj.pos_x, obj.pos_y, 0, 1, 1, obj.size_x/2, obj.size_y/2)
         
         -- physics debbug
-        love.graphics.setColor(0.9, 0.1, 0.1)
-        love.graphics.rectangle("line", obj.pos_x - (obj.size_x/2), obj.pos_y - (obj.size_y/2), obj.size_x, obj.size_y)
+        --love.graphics.setColor(0.9, 0.1, 0.1)
+        --love.graphics.rectangle("line", obj.pos_x - (obj.size_x/2), obj.pos_y - (obj.size_y/2), obj.size_x, obj.size_y)
       end
     end
     
