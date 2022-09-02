@@ -5,6 +5,8 @@ player.drawable = true
 player.facing_left = true -- or right
 player.size_x = 16 -- TODO rewrite to = { x = *, y = * }
 player.size_y = 13 -- TODO rewrite to = { x = *, y = * }
+player.pos_x = (args.render_area.size_x/2)
+player.pos_y = (args.render_area.size_y/3)
 player.speed = { x = 0, y = 0 }
 player.open_mouth = false
 --player.open_mouth_sndfx = love.audio.newSource( "assets/open_mouth.ogg", "static" )
